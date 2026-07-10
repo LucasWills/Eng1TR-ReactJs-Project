@@ -33,7 +33,7 @@ function generateRandIntArrayNoRepeats(size) {
 
 function App() {
   const [flashQueue, setFlashQueue] = useState([1, 2, 3, 4, 5]);
-  
+
 
   const [clickLog, setClickLog] = useState([]);
 
@@ -43,17 +43,6 @@ function App() {
   const [count, setCount] = useState(0);
 
   const [anim, setAnim] = useState(false);
-
-
-  // const [b1Lit, setb1Lit] = useState(false);
-  // const [b2Lit, setb2Lit] = useState(false);
-  // const [b3Lit, setb3Lit] = useState(false);
-  // const [b4Lit, setb4Lit] = useState(false);
-  // const [b5Lit, setb5Lit] = useState(false);
-  // const [b6Lit, setb6Lit] = useState(false);
-  // const [b7Lit, setb7Lit] = useState(false);
-  // const [b8Lit, setb8Lit] = useState(false);
-  // const [b9Lit, setb9Lit] = useState(false);
 
   const [buttonsLit, setButtonsLit] = useState([false, false, false,
                                                 false, false, false,
@@ -90,7 +79,10 @@ function App() {
     let timeout;
     let flash = false;
     let flashQueueCopy = []
-    flashQueueCopy = flashQueue;
+    // attempting to fopy flashQueue like flashQueueCopy = flashQueue breaks everything
+    for (var i = 0; i < flashQueue.length; i++) {
+      flashQueueCopy[i] = flashQueue[i];
+    }
 
     if (!anim) {
       return;
@@ -98,7 +90,6 @@ function App() {
 
     clearButtons();
 
-    /// WHY THE FUCK IS FLASHQUEUE GETTING CLEARED???????
     const timeoutCallback = () => {
       clearButtons();
       setCount(count => count + 1);
@@ -133,6 +124,7 @@ function App() {
 
     return;
   }
+
   const NextLevel = () => {
     RandomizeFlashQueue(5);
     setClickLog([]);
@@ -148,6 +140,7 @@ function App() {
       return
     }
 
+    // faliure
     if (clickLog.length >= flashQueue.length) {
       for (var i = 0; i < flashQueue.length; i++) {
         if (flashQueue[i] != clickLog[i]) {
@@ -155,9 +148,8 @@ function App() {
           setClickLog([]);
         }
       }
-
-
     }
+    // TODO success
 
 
   }, [clickLog]); // Triggers every time 'clickLog' updates
