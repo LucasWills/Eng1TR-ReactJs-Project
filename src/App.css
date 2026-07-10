@@ -207,7 +207,7 @@
 }
 
 .grid-btn {
-  padding: 15px 20px;
+  padding: 25px 20px;
   font-size: 16px;
   background-color: #005587;
   color: white;
@@ -217,7 +217,12 @@
   cursor: pointer;
   transition: background 0.2s ease;
 }
-
+.grid-btn:hover {
+  background-color: #01507e;
+}
+.grid-btn:active {
+  background-color: #ffd61e;
+}
 .grid-btn-lit {
   padding: 15px 20px;
   font-size: 16px;
@@ -229,11 +234,38 @@
   cursor: pointer;
   transition: background 0.2s ease;
 }
-
-.grid-btn:hover {
-  background-color: #be9e10;
+.grid-btn-lit:hover {
+  background-color: #a1ddff;
 }
 
-.grid-btn:active {
-  background-color: #ffd61e;
+
+
+
+.game-header {
+  padding: 15px 20px;
+  font-size: 25px;
+  background-color: #005587;
+  color: white;
+}
+
+
+#continue-btn-spacer {
+  height: 54px;
+  /* @media (max-width: 1024px) {
+    height: 54px;
+  } */
+}
+.continue-btn {
+  padding: 15px 20px;
+  font-size: 16px;
+  background-color: #007ec7;
+  color: white;
+  border-style:solid;
+  border-color:#073f60;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+.continue-btn:hover {
+  background-color: #be9e10;
 }
