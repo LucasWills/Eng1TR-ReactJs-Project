@@ -5,11 +5,12 @@ import heroImg from './assets/hero.png'
 import './App.css'
 
 
-
+// function to generate random number from 1 to n
 function getRandomInt(max) {
   return (Math.floor(Math.random() * max) + 1);
 }
 
+// function to generate a sequence of random numbers from 1 to n, with no consecutive repeats (i.e. nothing like 1,2,2,3)
 function generateRandIntArrayNoRepeats(size) {
   var arr = [];
   var temp = 0;
@@ -31,29 +32,36 @@ function generateRandIntArrayNoRepeats(size) {
   return arr;
 }
 
+// the actual app..
 function App() {
+  // array to store the current sequence
   const [flashQueue, setFlashQueue] = useState([1, 2, 3]);
+  // array to store what buttons the player has pressed
   const [clickLog, setClickLog] = useState([]);
 
-  const [startingNumFlashes, setStartingNumFlashes] = useState(3);
+  // stores how many button presses should be at level 1
+  const startingNumFlashes = 3;
+  //const [startingNumFlashes, setStartingNumFlashes] = useState(3);
 
-  
-  const [temp1, setTemp1] = useState(0);
-
+  // dummy variable for debugging
   const [count, setCount] = useState(0);
 
-  // START, GAME_FLASH, GAME_PLAY, WIN, FAIL
+  // stores the current state of the game/website
+  // states: START, GAME_FLASH, GAME_PLAY, WIN, FAIL
   const [gameState, setGameState] = useState("START");
 
+  // bool, button flash sequence plays when it's set to true
   const [anim, setAnim] = useState(false);
 
+  // stores current level reached
   const [gameLevel, setGameLevel] = useState(1);
 
+  // array for the buttons, if true then they will light up. used for the button flashing sequence
   const [buttonsLit, setButtonsLit] = useState([false, false, false,
                                                 false, false, false,
                                                 false, false, false ]);
 
-
+  // wrapper for the above array so it's easier to use
   const setButton = (button, val) => {
     setButtonsLit(prevItems => 
       prevItems.map((item, index) => 
@@ -62,13 +70,14 @@ function App() {
     );
   }
 
+  // function to unlight all the buttons
   const clearButtons = () => {
     setButtonsLit([false, false, false,
                    false, false, false,
                    false, false, false ])
   }
 
-
+  // function to generate new flashQueue with specified size
   const RandomizeFlashQueue = (queueSize) => {
     setFlashQueue([]);
     var arr = generateRandIntArrayNoRepeats(queueSize)
@@ -76,79 +85,66 @@ function App() {
     return;
   }
 
-
-
-
+  // this function runs on any change of bool anim. If anim is set true, it plays the button flashing animation thing
   useEffect(() => {
 
-    let timeout;
-    let flash = false;
-    let flashQueueCopy = []
-    // attempting to fopy flashQueue like flashQueueCopy = flashQueue breaks everything
-    for (var i = 0; i < flashQueue.length; i++) {
-      flashQueueCopy[i] = flashQueue[i];
-    }
-
+    // avoid running the rest of the code if anim is set false
     if (!anim) {
       return;
     }
 
+    let timeout;
+    let flash = false;
+    // copy of flashQueue for the animation, we will remove elements as they're displayed.
+    let flashQueueCopy = []
+    // attempting to copy flashQueue like `flashQueueCopy = flashQueue` breaks everything idk why
+    for (var i = 0; i < flashQueue.length; i++) {
+      flashQueueCopy[i] = flashQueue[i];
+    }
+
     clearButtons();
 
+    // recursive function for playing the button flashing animation
     const timeoutCallback = () => {
       clearButtons();
-      setCount(count => count + 1);
-      setButton(flashQueueCopy[0], true);
+      //setCount(count => count + 1);
 
-
+      // if we're done with the animation...
       if (flashQueueCopy.length == 0) {
-        clearButtons();
         setAnim(false);
         setGameState("GAME_PLAY");
         return;
       }
 
+      // light up the corresponding button
+      setButton(flashQueueCopy[0], true);
+
+      // otherwise, remove the first element from flashQueueCopy
       flashQueueCopy.splice(0, 1);
 
+      // then call myself in 500 milliseconds
       timeout = setTimeout(timeoutCallback, 500);
       
     }
 
+    // start the animation
     timeout = setTimeout(timeoutCallback, 500);
 
-
+    // clean up the timeouts
     return () => clearTimeout(timeout);
 
-  }, [anim])
+  }, [anim]); // triggers every time anim updates
 
-
-
-
-  const Fail = () => {
-    RandomizeFlashQueue(startingNumFlashes);
-    setClickLog([]);
-    setGameState("FAIL");
-
-    return;
-  }
-
-  const NextLevel = () => {
-    RandomizeFlashQueue(gameLevel + startingNumFlashes);
-    setClickLog([]);
-    setGameState("WIN");
-
-    return;
-  }
-
-  // runs when clickLog updated
+  // when clickLog is updated, check if player has won or lost
   useEffect(() => {
-    setCount(clickLog.length);
+    //setCount(clickLog.length);
 
+    // if clicklog was just reset, ignore the rest of the code
     if (clickLog.length == 0) {
       return
     }
 
-    // faliure
+    // check if the player has lost the level
     if (clickLog.length >= flashQueue.length) {
       for (var i = 0; i < flashQueue.length; i++) {
         if (flashQueue[i] != clickLog[i]) {
@@ -158,58 +154,71 @@ function App() {
         }
       }
     }
-    // success
+    // check if the player has won the level
     if (clickLog.length == flashQueue.length) {
-      NextLevel();
+      Success();
     }
 
 
-  }, [clickLog]); // Triggers every time 'clickLog' updates
+  }, [clickLog]); // triggers every time clickLog changes
 
+  // reset things and change game state to FAIL
+  const Fail = () => {
+    RandomizeFlashQueue(startingNumFlashes);
+    setClickLog([]);
+    setGameState("FAIL");
+
+    return;
+  }
+
+  // reset things and change game state to WIN
+  const Success = () => {
+    RandomizeFlashQueue(gameLevel + startingNumFlashes);
+    setClickLog([]);
+    setGameState("WIN");
+
+    return;
+  }
+
+  // update clickLog with a specific button pressed
   const UpdateLog = (buttonNum) => {
 
+    // skip the rest of the code if we're not in the gameplay phase
     if (gameState !== "GAME_PLAY") {
       return;
     }
 
     setClickLog(prevItems => [...prevItems, buttonNum]);
-    if (buttonNum == 9) {
-      setAnim[true];
-    }
-
 
     return;
   }
 
-
-  const TestButton = () => {
-
-    setAnim(true);
-
-    return;
-  }
-
+  // handle the functions of the button in the game header
   const HeaderButton = () => {
     switch (gameState) {
       case "START":
         setGameState("GAME_FLASH");
         setAnim(true);
         break;
+
       case "WIN":
         setGameLevel(gameLevel => gameLevel + 1);
         setGameState("GAME_FLASH");
         setAnim(true);
         break;
+
       case "FAIL":
         setGameLevel(1);
         setGameState("GAME_FLASH");
         setAnim(true);
         break;
+
       default:
         break;
     }
   }
 
+  // display the game header appropriate for the current game state
   const GameHeader = () => {
     return (
       <div>
@@ -268,23 +277,22 @@ function App() {
     );
   }
 
+  // website HTML...
   return (
     <>
-
-
       <section id="spacer"></section>
 
-
-
+      {/* debugging stuff */}
       {/* <h>count{count}</h>
       <h>clklog{clickLog}</h>
       <h>{flashQueue}</h>
       <h>anim: {`${(anim == false ? 'false' : 'true')}`}</h> */}
 
-      {GameHeader()}
+      { // display the dynamic header...
+        GameHeader()
+      }
 
-
-
+      {/* all the grid buttons and their functions... */}
       <div class="button-grid">
         <button class={`${(buttonsLit[0] == false ? 'grid-btn' : 'grid-btn-lit')}`} onClick={() => UpdateLog(1)}>Button 1</button>
         <button class={`${(buttonsLit[1] == false ? 'grid-btn' : 'grid-btn-lit')}`} onClick={() => UpdateLog(2)}>Button 2</button>
@@ -297,16 +305,7 @@ function App() {
         <button class={`${(buttonsLit[8] == false ? 'grid-btn' : 'grid-btn-lit')}`} onClick={() => UpdateLog(9)}>Button 9</button>
       </div>
 
-      {/* <div class="button-grid">
-        <button onClick={() => TestButton()}>tester</button>
-      </div> */}
-
-      
-
       <div className="ticks"></div>
-
-
-
       <div className="ticks"></div>
       <section id="spacer"></section>
     </>
