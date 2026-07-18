@@ -1,7 +1,7 @@
 import { useState, useEffect, use } from 'react'
 import reactLogo from './assets/react.svg'
 import viteLogo from './assets/vite.svg'
-import heroImg from './assets/hero.png'
+import Wes from './assets/Wes.jpg'
 import './App.css'
 
 
@@ -293,7 +293,7 @@ function App() {
       }
 
       {/* all the grid buttons and their functions... */}
-      <div class="button-grid">
+      <div class="button-grid" >
         <button class={`${(buttonsLit[0] == false ? 'grid-btn' : 'grid-btn-lit')}`} onClick={() => UpdateLog(1)}>Button 1</button>
         <button class={`${(buttonsLit[1] == false ? 'grid-btn' : 'grid-btn-lit')}`} onClick={() => UpdateLog(2)}>Button 2</button>
         <button class={`${(buttonsLit[2] == false ? 'grid-btn' : 'grid-btn-lit')}`} onClick={() => UpdateLog(3)}>Button 3</button>
@@ -302,9 +302,8 @@ function App() {
         <button class={`${(buttonsLit[5] == false ? 'grid-btn' : 'grid-btn-lit')}`} onClick={() => UpdateLog(6)}>Button 6</button>
         <button class={`${(buttonsLit[6] == false ? 'grid-btn' : 'grid-btn-lit')}`} onClick={() => UpdateLog(7)}>Button 7</button>
         <button class={`${(buttonsLit[7] == false ? 'grid-btn' : 'grid-btn-lit')}`} onClick={() => UpdateLog(8)}>Button 8</button>
-        <button class={`${(buttonsLit[8] == false ? 'grid-btn' : 'grid-btn-lit')}`} onClick={() => UpdateLog(9)}>Button 9</button>
+        <button class={`${(buttonsLit[8] == false ? 'grid-btn' : 'grid-btn-lit')}`} onClick={() => UpdateLog(9)}><img src={Wes} width={120} height={90}></img></button>
       </div>
-
       <div className="ticks"></div>
       <div className="ticks"></div>
       <section id="spacer"></section>
