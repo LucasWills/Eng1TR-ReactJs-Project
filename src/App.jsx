@@ -1,6 +1,4 @@
 import { useState, useEffect, use } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from './assets/vite.svg'
 import Wes from './assets/Wes.jpg'
 import James from './assets/James.jpg'
 import Julian from './assets/Julian.jpg'
