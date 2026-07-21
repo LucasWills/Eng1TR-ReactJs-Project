@@ -1,7 +1,13 @@
+.app-theme-container {
+  background-color: var(--bg-color) !important;
+  color: var(--text-color);
+  min-height: 100vh;
+  width: 100%;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
 
 #spacer {
   height: 88px;
-  border-top: 1px solid var(--border);
   @media (max-width: 1024px) {
     height: 48px;
   }
@@ -21,21 +27,11 @@
 
   &::before {
     left: 0;
-    border-left-color: var(--border);
   }
   &::after {
     right: 0;
-    border-right-color: var(--border);
   }
 }
-
-
-
-
-
-
-
-
 
 .button-grid {
   /* Establishes the grid context */
@@ -50,50 +46,50 @@
   /* Optional: keeps the grid from stretching infinitely */
   max-width: 600px; 
   margin: 20px auto;
-}
+}  
 
 .grid-btn {
   padding: 25px 20px;
   font-size: 16px;
-  background-color: #005587;
-  color: white;
-  border-style:solid;
-  border-color:#073f60;
+  background-color: var(--btn-color, #005587);
+  border: 3px solid rgba(0, 0, 0, 0.15);
   border-radius: 5px;
   cursor: pointer;
-  transition: background 0.2s ease;
+  transition: background 0.2s ease, transform 0.1s ease;
 }
+
 .grid-btn:hover {
-  background-color: #01507e;
-}
+  background-color: var(--btn-hover);
+}  
+
 .grid-btn:active {
-  background-color: #ffd61e;
-}
+  background-color: var(--active-border);
+}  
+
 .grid-btn-lit {
   padding: 15px 20px;
   font-size: 16px;
-  background-color: #a1ddff;
-  color: white;
-  border-style:solid;
-  border-color:#073f60;
+  background-color: var(--lit-color, #a1ddff);
+  border: 3px solid rgba(0, 0, 0, 0.15);
   border-radius: 5px;
   cursor: pointer;
   transition: background 0.2s ease;
 }
+
 .grid-btn-lit:hover {
-  background-color: #a1ddff;
+  background-color:var(--lit-color, #a1ddff);
 }
-
-
-
-
+  
 .game-header {
   padding: 15px 20px;
   font-size: 25px;
-  background-color: #005587;
+  background-color: var(--btn-color, #005587);
   color: white;
+  text-align: center;
+  border-radius: 5px;
+  max-width: 600px;
+  margin: 0 auto;
 }
-
 
 #continue-btn-spacer {
   height: 54px;
@@ -101,17 +97,56 @@
     height: 54px;
   } */
 }
+  
 .continue-btn {
   padding: 15px 20px;
   font-size: 16px;
-  background-color: #007ec7;
+  background-color: var(--btn-color, #007ec7);
   color: white;
-  border-style:solid;
-  border-color:#073f60;
+  border-style: solid;
+  border: 3px solid rgba(0, 0, 0, 0.15);
   border-radius: 5px;
   cursor: pointer;
   transition: background 0.2s ease;
 }
+  
 .continue-btn:hover {
-  background-color: #be9e10;
+  background-color: var(--btn-hover);
 }
+  
+.theme-picker-container {
+  text-align: center;
+  padding: 10px;
+}
+  
+.theme-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  margin-top: 10px;
+}
+  
+.theme-btn {
+  width: 50px !important;
+  height: 50px !important;
+  min-width: 50px;
+  min-height: 50px;
+  border-radius: 50%;
+  border: 3px solid transparent;
+  cursor: pointer;
+  padding: 0;
+  transition: transform 0.2s ease, border-color 0.2s ease, filter 0.2s ease;
+}
+  
+.theme-btn:hover {
+  filter: brightness(0.85);
+  transform: translateY(-2px);
+}
+  
+.theme-btn.active-theme {
+  border-color: var(--active-border) !important;
+  transform: scale(1.1) translateY(-2px);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+} 
+  
+  

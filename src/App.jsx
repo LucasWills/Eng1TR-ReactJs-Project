@@ -10,6 +10,14 @@ import CutestThingOnThePlanet from './assets/IfAnythingHappenedToThisCatIWouldKi
 import SOYSAUCE from './assets/soysauce.jpg'
 import './App.css'
 
+const themes = {
+  maroon: { bg: '#faf6f6', text: '#2a1215', btn: '#800020', btnHover: '#600018', lit: '#ffccd7', active: '#ffd61e'},
+  olive: { bg: '#f9f9f1', text: '#242a17', btn: '#556b2f', btnHover: '#3b4d20', lit: '#cbdcb0', active: '#f5deb3'},
+  greyPurple: { bg: '#f1f0f4', text: '#1c1b1f', btn: '#4a4458', btnHover: '#332d41', lit: '#e8e0f5', active: '#d0bcff'},
+  greyPink: { bg: '#fcf8f9', text: '#201a1b', btn: '#7d5260', btnHover: '#633b48', lit: '#ffd8e4', active: '#ffb3c5'},
+  white: { bg: '#fafafa', text: '#1a1a1a', btn: '#212121', btnHover: '#424242', lit: '#e0e0e0', active: '#9e9e9e'},
+  original: { bg: '#ffffff', text: '#333333', btn: '#005587', btnHover: '#01507e', lit: '#a1ddff', active: '#ffd61e'}
+};
 
 // function to generate random number from 1 to n
 function getRandomInt(max) {
@@ -40,6 +48,8 @@ function generateRandIntArrayNoRepeats(size) {
 
 // the actual app..
 function App() {
+  //array for theme
+  const [currentTheme, setCurrentTheme] = useState('original');
   // array to store the current sequence
   const [flashQueue, setFlashQueue] = useState([1, 2, 3]);
   // array to store what buttons the player has pressed
@@ -66,7 +76,7 @@ function App() {
   const [buttonsLit, setButtonsLit] = useState([false, false, false,
                                                 false, false, false,
                                                 false, false, false ]);
-
+  
   // wrapper for the above array so it's easier to use
   const setButton = (button, val) => {
     setButtonsLit(prevItems => 
@@ -90,6 +100,11 @@ function App() {
     setFlashQueue(arr);
     return;
   }
+
+  //updates page background color when user chnages the theme
+  useEffect(() => {
+    document.body.style.backgroundColor = themes[currentTheme].btn;
+  }, [currentTheme]);
 
   // this function runs on any change of bool anim. If anim is set true, it plays the button flashing animation thing
   useEffect(() => {
@@ -285,19 +300,29 @@ function App() {
 
   // website HTML...
   return (
-    <>
+    <div 
+      className="app-theme-container"
+      style={{ 
+        '--bg-color': themes[currentTheme].btn, 
+        '--text-color': '#ffffff', 
+        '--btn-color': themes[currentTheme].btn,
+        '--btn-hover': themes[currentTheme].btnHover,
+        '--lit-color': themes[currentTheme].lit,
+        '--active-border': themes[currentTheme].active,
+      }}
+    >
       <section id="spacer"></section>
-
+  
       {/* debugging stuff */}
       {/* <h>count{count}</h>
       <h>clklog{clickLog}</h>
       <h>{flashQueue}</h>
       <h>anim: {`${(anim == false ? 'false' : 'true')}`}</h> */}
-
+  
       { // display the dynamic header...
         GameHeader()
       }
-
+  
       {/* all the grid buttons and their functions... */}
       <div class="button-grid" >
         <button class={`${(buttonsLit[0] == false ? 'grid-btn' : 'grid-btn-lit')}`} onClick={() => UpdateLog(1)}><img src={Poe} width={120} height={90}></img></button>
@@ -313,7 +338,25 @@ function App() {
       <div className="ticks"></div>
       <div className="ticks"></div>
       <section id="spacer"></section>
-    </>
+  
+      {/* Palette selector*/}
+      <div className="theme-picker-container">
+        <h3>Select Palette</h3>
+        <div className="theme-buttons">
+          {Object.keys(themes).map((themeName) => (
+            <button 
+              key={themeName}
+              style={{ 
+                backgroundColor: themes[themeName].btn,
+                borderColor: currentTheme === themeName ? themes[themeName].active : 'transparent'
+              }} 
+              className={`theme-btn ${currentTheme === themeName ? 'active-theme' : ''}`} 
+              onClick={() => setCurrentTheme(themeName)}
+            />
+          ))}
+        </div>
+      </div>
+    </div>
   )
 }
 
