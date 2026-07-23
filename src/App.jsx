@@ -246,7 +246,7 @@ function App() {
         {(gameState === "START") && 
           <div>
             <div class="game-header">
-              <h>START!!</h>
+              <h>Click the buttons in the right order to win!</h>
             </div>
             <div>
               <button class="continue-btn" onClick={() => HeaderButton()}>Get Started!</button>
@@ -256,7 +256,7 @@ function App() {
         {(gameState === "GAME_FLASH") && 
           <div>
             <div class="game-header">
-              <h>WATCH!!!!</h>
+              <h>Watch carefully!</h>
             </div>
             <div>
               <section id="continue-btn-spacer"></section>
@@ -266,7 +266,7 @@ function App() {
         {(gameState === "GAME_PLAY") && 
           <div>
             <div class="game-header">
-              <h>PLAY!!!!</h>
+              <h>Go!</h>
             </div>
             <div>
               <section id="continue-btn-spacer"></section>
@@ -276,7 +276,7 @@ function App() {
         {(gameState === "WIN") && 
           <div>
             <div class="game-header">
-              <h>WIN!!!!</h>
+              <h>Nice Job!</h>
             </div>
             <div>
               <button class="continue-btn" onClick={() => HeaderButton()}>You passed level {gameLevel}! Next!</button>
@@ -286,10 +286,10 @@ function App() {
         {(gameState === "FAIL") && 
           <div>
             <div class="game-header">
-              <h>LOSER!!!!</h>
+              <h>Not quite!</h>
             </div>
             <div>
-              <button class="continue-btn" onClick={() => HeaderButton()}>You reached level {gameLevel}! Start over!</button>
+              <button class="continue-btn" onClick={() => HeaderButton()}>You reached level {gameLevel}. Start over?</button>
             </div>
           </div>
         }
@@ -311,7 +311,7 @@ function App() {
         '--active-border': themes[currentTheme].active,
       }}
     >
-      <section id="spacer"></section>
+
   
       {/* debugging stuff */}
       {/* <h>count{count}</h>
@@ -337,7 +337,7 @@ function App() {
       </div>
       <div className="ticks"></div>
       <div className="ticks"></div>
-      <section id="spacer"></section>
+
   
       {/* Palette selector*/}
       <div className="theme-picker-container">
