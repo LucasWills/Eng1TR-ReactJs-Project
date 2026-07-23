@@ -6,3 +6,5 @@ Built using ReactJs for Engineering 1 TR at UCLA.
 
 Contributors: Lucas Wills, Mustafa Hassoun, and Somin Lee.
 
+Somin used Gemini for assistance with the color palette buttons. Otherwise, AI generated code was not used.
+
